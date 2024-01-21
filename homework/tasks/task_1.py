@@ -1,5 +1,12 @@
 from asyncio import Task
 from typing import Callable, Coroutine, Any
+import asyncio
+
+
+async def f(x):
+    y = x ** 2
+    print(y)
+    return y
 
 
 async def await_my_func(f: Callable[..., Coroutine] | Task | Coroutine) -> Any:
@@ -7,10 +14,14 @@ async def await_my_func(f: Callable[..., Coroutine] | Task | Coroutine) -> Any:
     # её выполнения.
 
     if isinstance(f, Callable):
-        # YOUR CODE GOES HERE
+        y = asyncio.create_task(f(1))
     elif isinstance(f, Task):
-        # YOUR CODE GOES HERE
+        y = asyncio.create_task(f(2))
     elif isinstance(f, Coroutine):
-        # YOUR CODE GOES HERE
+        y = asyncio.create_task(f(3))
     else:
         raise ValueError('invalid argument')
+    await y
+
+if __name__ == '__main__':
+    asyncio.run(await_my_func(f))

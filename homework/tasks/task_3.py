@@ -20,5 +20,9 @@ async def coroutines_execution_order(coros: list[Awaitable[Ticket]]) -> str:
     #
     # Результат: 'мамамылараму'
     #
-    # YOUR CODE GOES HERE
-
+    pairs = await coros
+    pairs_sorted = sorted(pairs, key=lambda x: x[0])
+    result = ""
+    for pair in pairs_sorted:
+        result += pair[1]
+    return result
